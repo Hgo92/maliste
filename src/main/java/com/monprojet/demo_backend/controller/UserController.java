@@ -4,6 +4,7 @@ import com.monprojet.demo_backend.model.*;
 import com.monprojet.demo_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/setup")
+    @Transactional
     public String setupTest() {
         User user = new User();
         user.setUsername("Hugo");
@@ -27,6 +29,8 @@ public class UserController {
         list.addItem(new Item("PQ"));
 
         user.setMyList(list);
+
+        userRepository.save(user);
 
         return "Utilisateur 'Hugo' a créé sa liste";
     }
