@@ -19,10 +19,10 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "list_id", referencedColumnName = "id")
-    @JsonManagedReference // Autorise l'utilisateur à afficher sa liste
+    @JsonManagedReference
     private MyList myList;
 
-    // Constructeurs
+    // Constructeur
     public User() {}
 
     // Getters et Setters
