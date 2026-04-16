@@ -20,7 +20,7 @@ public class MyList {
     @JsonBackReference // Empêche la liste de réafficher l'utilisateur
     private User user;
 
-    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "list", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonManagedReference // Autorise la liste à afficher ses items
     private List<Item> items = new ArrayList<>();
 
@@ -40,7 +40,15 @@ public class MyList {
     
     
     public void addItem(Item item) {
-        items.add(item);
+        this.items.add(item);
         item.setList(this);
+        if (this.user != null) {
+        item.setItemOwner(this.user.getUsername());
     }
+    }
+
+    public void removeItem(Item item) {
+    this.items.remove(item);
+    item.setList(null); 
+}
 }

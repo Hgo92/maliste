@@ -19,7 +19,6 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     // Ma fonction pour enregister un utilisateur
     @PostMapping("/register")
     public User register(@RequestBody User user){

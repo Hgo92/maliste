@@ -2,6 +2,7 @@ package com.monprojet.demo_backend.model;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "items")
@@ -13,15 +14,20 @@ public class Item {
 
     private String name;
     private int quantity;
+    private String owner; 
+
 
     @ManyToOne
     @JoinColumn(name = "list_id")
     @JsonBackReference // Empêche l'item de ré-afficher la liste (évite la boucle)
     private MyList list;
 
-    // Constructeurs
-    public Item() {}
+    @JsonProperty("isArchived")
+    public boolean isArchived() {
+        return this.list == null;
+    }
 
+    // Constructeurs
     public Item(String name) {
         this.name = name;
         this.quantity = 1;
@@ -39,4 +45,7 @@ public class Item {
 
     public int getQuantity() {return this.quantity;}
     public void setQuantity(int num) {this.quantity = num;}
+
+    public String getItemOwner() {return this.owner;}
+    public void setItemOwner(String owner) {this.owner = owner;}
 }
