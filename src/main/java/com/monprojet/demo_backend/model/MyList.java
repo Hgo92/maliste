@@ -43,7 +43,7 @@ public class MyList {
         this.items.add(item);
         item.setList(this);
         if (this.user != null) {
-        item.setItemOwner(this.user.getUsername());
+        item.setOwner(this.user);
     }
     }
 

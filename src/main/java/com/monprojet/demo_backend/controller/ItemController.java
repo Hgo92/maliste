@@ -25,8 +25,10 @@ public class ItemController {
     // Ma route pour les récupérers tous les objets (dans sa liste)
     @GetMapping("/me")
     public ResponseEntity<List<Item>> getMyAllItems(Principal principal) {
-        List<Item> allItems = itemRepository.findByOwnerUsername(principal.getName());
-        
+        User user = userRepository.findByUsername(principal.getName())
+            .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        List<Item> allItems = itemRepository.findByOwner(user); // ← direct, propre
         return ResponseEntity.ok(allItems);
     }
 

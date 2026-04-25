@@ -14,12 +14,15 @@ public class Item {
 
     private String name;
     private int quantity;
-    private String owner; 
 
-
+    // Relations
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+    
     @ManyToOne
     @JoinColumn(name = "list_id")
-    @JsonBackReference // Empêche l'item de ré-afficher la liste (évite la boucle)
+    @JsonBackReference 
     private MyList list;
 
     @JsonProperty("isArchived")
@@ -28,6 +31,8 @@ public class Item {
     }
 
     // Constructeurs
+    public Item() {}
+
     public Item(String name) {
         this.name = name;
         this.quantity = 1;
@@ -46,6 +51,6 @@ public class Item {
     public int getQuantity() {return this.quantity;}
     public void setQuantity(int num) {this.quantity = num;}
 
-    public String getItemOwner() {return this.owner;}
-    public void setItemOwner(String owner) {this.owner = owner;}
+    public User getOwner() {return this.owner;}
+    public void setOwner(User owner) {this.owner = owner;}
 }
