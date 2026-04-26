@@ -33,7 +33,7 @@ public class ItemController {
     }
 
     // Ma route pour créer un objet 
-    @PostMapping
+    @PostMapping("/add")
     @Transactional
     public Item addItem(@RequestBody Item newItem, Principal principal) {
         User user = userRepository.findByUsername(principal.getName())
@@ -41,6 +41,7 @@ public class ItemController {
 
         MyList list = user.getMyList();
         list.addItem(newItem);
+        newItem.setOwner(user);
         
         return itemRepository.save(newItem);
     }
@@ -63,15 +64,29 @@ public class ItemController {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Item non trouvé"));
 
-        if (!item.getList().getUser().getUsername().equals(principal.getName())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Accès refusé");
-        }
+        if (!item.getOwner().getUsername().equals(principal.getName())) {
+                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Accès refusé");
+    }
 
         MyList userList = item.getList();
         userList.removeItem(item);
         itemRepository.save(item);
 
         return ResponseEntity.ok("L'item a été retiré de votre liste.");
+    }
+
+    @PutMapping("/{id}/attach")
+    @Transactional
+    public ResponseEntity<String> attachItem(@PathVariable Long id, Principal principal) {
+        Item item = itemRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Item non trouvé"));
+
+        User user = userRepository.findByUsername(principal.getName())
+            .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        user.getMyList().addItem(item);
+        itemRepository.save(item);
+        return ResponseEntity.ok("L'item a été ajouté à votre liste.");
     }
 
     // Ma route pour supprimer 

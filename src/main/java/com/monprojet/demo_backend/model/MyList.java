@@ -42,9 +42,6 @@ public class MyList {
     public void addItem(Item item) {
         this.items.add(item);
         item.setList(this);
-        if (this.user != null) {
-        item.setOwner(this.user);
-    }
     }
 
     public void removeItem(Item item) {

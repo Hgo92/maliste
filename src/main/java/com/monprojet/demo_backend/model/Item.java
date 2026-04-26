@@ -2,6 +2,7 @@ package com.monprojet.demo_backend.model;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -18,6 +19,7 @@ public class Item {
     // Relations
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @JsonIgnore
     private User owner;
     
     @ManyToOne
