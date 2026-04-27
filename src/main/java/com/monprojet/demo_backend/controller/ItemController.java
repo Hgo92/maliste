@@ -58,6 +58,7 @@ public class ItemController {
             return itemRepository.save(item);
     }
 
+    // Mes routes pour attacher/détacher un objet d'une liste    
     @PutMapping("/{id}/detach")
     @Transactional
     public ResponseEntity<String> detachItem(@PathVariable Long id, Principal principal) {
@@ -87,6 +88,39 @@ public class ItemController {
         user.getMyList().addItem(item);
         itemRepository.save(item);
         return ResponseEntity.ok("L'item a été ajouté à votre liste.");
+    }
+
+    // Mes routes pour changer la quantité d'un item
+
+    @PutMapping("/{id}/plus")
+    @Transactional
+    public ResponseEntity<String> addOneItem(@PathVariable Long id, Principal principal) {
+        Item item = itemRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Item non trouvé"));
+
+        if (!item.getOwner().getUsername().equals(principal.getName())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Accès refusé");
+    } 
+    item.addQuantity();
+    itemRepository.save(item);
+
+    return ResponseEntity.ok("La quantité de l'item a été augmentée.");
+    }
+
+    @PutMapping("/{id}/minus")
+    @Transactional
+    public ResponseEntity<String> deleteOneItem(@PathVariable Long id, Principal principal) {
+        Item item = itemRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Item non trouvé"));
+
+        if (!item.getOwner().getUsername().equals(principal.getName())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Accès refusé");
+    } 
+
+    item.minusQuantity();
+    itemRepository.save(item);
+
+    return ResponseEntity.ok("La quantité de l'item a été diminuée.");
     }
 
     // Ma route pour supprimer 

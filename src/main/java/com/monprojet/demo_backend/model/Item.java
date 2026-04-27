@@ -52,6 +52,14 @@ public class Item {
 
     public int getQuantity() {return this.quantity;}
     public void setQuantity(int num) {this.quantity = num;}
+    public void addQuantity() {this.quantity += 1;}
+    public void minusQuantity() {
+        if (this.quantity > 1) {
+            this.quantity -= 1;
+        } else {
+            this.setQuantity(0);
+        }
+    }
 
     public User getOwner() {return this.owner;}
     public void setOwner(User owner) {this.owner = owner;}
