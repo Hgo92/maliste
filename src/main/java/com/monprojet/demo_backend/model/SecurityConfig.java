@@ -32,7 +32,7 @@ public class SecurityConfig implements WebMvcConfigurer  {
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDetailsServiceImpl userDetailsService;
 
-    @Value("${CORS_ALLOWED_ORIGINS:http://localhost:4200}")
+    @Value("${CORS_ALLOWED_ORIGINS:https://maliste-ten.vercel.app}")
     private String corsAllowedOrigins;
 
     @Bean
