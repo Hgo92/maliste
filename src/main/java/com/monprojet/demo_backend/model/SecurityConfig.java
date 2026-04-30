@@ -35,16 +35,6 @@ public class SecurityConfig implements WebMvcConfigurer  {
     @Value("${CORS_ALLOWED_ORIGINS:http://localhost:4200}")
     private String corsAllowedOrigins;
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowedOrigins(
-                "http://localhost:4200",        // dev local
-                "https://ton-front.fly.dev"     // prod
-            )
-            .allowedMethods("*");
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
