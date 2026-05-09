@@ -35,9 +35,9 @@ public class Item {
     // Constructeurs
     public Item() {}
 
-    public Item(String name) {
+    public Item(String name, Integer quantity) {
         this.name = name;
-        this.quantity = 1;
+        this.quantity = quantity;
     }
 
     // Getters et Setters
