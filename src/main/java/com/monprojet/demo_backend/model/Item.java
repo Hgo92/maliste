@@ -14,7 +14,7 @@ public class Item {
     private Long id;
 
     private String name;
-    private Integer quantity;
+    private int quantity;
 
     // Relations
     @ManyToOne
@@ -35,7 +35,7 @@ public class Item {
     // Constructeurs
     public Item() {}
 
-    public Item(String name, Integer quantity) {
+    public Item(String name, int quantity) {
         this.name = name;
         this.quantity = quantity;
     }
